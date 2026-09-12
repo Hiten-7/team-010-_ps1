@@ -1,392 +1,230 @@
-<<<<<<< HEAD
-# 🚨 AI-Powered Disaster Early Warning & Rescue Intelligence Platform
+# 🚨 Aapda Setu (आपदा सेतु)
+### AI-Powered Disaster Early Warning & Rescue Intelligence Platform
 
-An end-to-end mission-critical intelligence platform designed for District Disaster Management Authorities (DDMAs) and emergency response teams to predict disaster zones, evaluate affected population and infrastructure, rank emergency priorities, calculate risk-aware evacuation routes, allocate safe shelters, and generate authoritative AI Incident Action Plans.
+[![Python](https://img.shields.io/badge/Python-3.11%20%7C%203.12-blue.svg)](https://www.python.org/)
+[![Framework](https://img.shields.io/badge/UI-Streamlit-red.svg)](https://streamlit.io/)
+[![ML](https://img.shields.io/badge/ML-XGBoost%20%7C%20SGD-brightgreen.svg)](https://xgboost.readthedocs.io/)
+[![GIS](https://img.shields.io/badge/GIS-GeoPandas%20%7C%20Shapely-orange.svg)](https://geopandas.org/)
+[![Routing](https://img.shields.io/badge/Routing-NetworkX%20%7C%20OSMnx-purple.svg)](https://networkx.org/)
+[![AI](https://img.shields.io/badge/AI-Google%20Gemini-4285F4.svg)](https://ai.google.dev/)
 
 ---
 
-## 🏗️ Architecture & Communication Contract
+## 📌 Executive Summary
 
-Each module is decoupled and communicates exclusively through standard CSV/JSON contracts in the `outputs/` directory:
+**Aapda Setu (आपदा सेतु)** is an end-to-end, location-aware decision-support platform designed for **District Disaster Management Authorities (DDMAs)**, **NDRF/SDRF Incident Commanders**, and **at-risk citizens**. 
+
+During extreme monsoon events, river overflow, urban flooding, and landslides, disaster management teams receive fragmented data from isolated sources (weather radar, CWC river gauges, satellite inundation masks, demographic records, and static municipal maps). **Aapda Setu** ingests these heterogeneous streams in real time and synthesizes them into actionable tactical directives in seconds.
+
+---
+
+## 🌟 Key Capabilities & Features
+
+### 1. 📍 Zero-Hardcoding Dynamic Location Pipeline
+- Fully data-driven: changing or searching a location instantly triggers dynamic geospatial, meteorological, and hydrological re-evaluation.
+- Pre-configured disaster hotspots with live telemetry:
+  - **Kolkata, West Bengal** (Hooghly River Reach)
+  - **Varanasi, Uttar Pradesh** (Ganges Waterfront Sector)
+  - **Nagaon, Assam** (Kolong Riverbank & Brahmaputra Flood Plain)
+  - **Dhubri, Assam** (Lower Riparian Brahmaputra Reach)
+  - **Patna, Bihar** (Rajendra Nagar Low Basin & Ganges Confluence)
+  - **Jaipur, Rajasthan** (Walled City Drainage Corridor)
+  - **Malappuram, Kerala** (Kadalundi River Valley & Western Ghats)
+- Supports arbitrary custom text search and GPS geolocation.
+
+### 2. 🌧️ Real-Time Telemetry & Hydrological Monitoring
+- **Live Weather**: Integrated with the Open-Meteo REST API (real-time temperature, humidity, wind speed, precipitation probability) with deterministic offline fallbacks.
+- **Rainfall Intelligence**: Real-time 1-hour, 24-hour, and 48-hour rainfall accumulation tracked against official IMD warning categories (*Normal, Moderate, Heavy, Very Heavy, Extremely Heavy*).
+- **River Gauge Telemetry**: Nearest river tracking, active gauge stations, current stages vs. danger marks, and flood status (*Normal, Approaching, Above Danger Mark, Overflowing*).
+- **Historical Recurrence**: Historical benchmark linking to 17,458 district flood records across 728 Indian districts.
+
+### 3. 🤖 Machine Learning Hazard & Severity Scoring
+- Calibrated ML ensemble combining **XGBoost** (`xgb_model.pkl`) and **SGDClassifier** (`sgd_model.pkl`).
+- Computes a unified **0–100 Disaster Severity Score (DSS)**:
+  $$\text{DSS} = 0.35 \times P_{\text{flood}} + 0.30 \times \text{Rainfall}_{\text{norm}} + 0.20 \times \text{River}_{\text{norm}} + 0.15 \times (100 - \text{Elevation}_{\text{norm}})$$
+- Automatic classification into 4 operational tiers: `LOW`, `MODERATE`, `HIGH`, `CRITICAL`.
+
+### 4. 👥 Spatial Demographic & Critical Infrastructure Exposure
+- **GeoPandas & Shapely** spatial intersection over dynamic hazard zones.
+- Pinpoints exposed populations with demographic breakdowns: children (<12 yrs), elderly (>65 yrs), and mobility-impaired individuals requiring mandatory evacuation.
+- Audits critical infrastructure in the danger perimeter: hospitals, schools, bridges/culverts, and power/water utilities.
+
+### 5. ⚡ Transparent Emergency Response Priority Ranking
+- Mathematically defensible priority scoring:
+  $$\text{Priority Score} = 40\% \text{ Risk} + 25\% \text{ Population} + 20\% \text{ Infrastructure} + 15\% \text{ Isolation Urgency}$$
+- Automatically ranks zones (Rank 1 = Highest Emergency) with explicit reasons and actionable deployment directives.
+
+### 6. 🛣️ Risk-Penalized Safe Evacuation Routing & Shelter Allocation
+- **NetworkX / OSMnx A\*** routing engine evaluating three distinct evacuation corridors:
+  - **Route A (Fastest / Direct)**: Shortest travel time; carries inundation risk warnings.
+  - **Route B (Safe Highland Bypass)**: Maximizes elevation and circumvents riverbanks (Recommended).
+  - **Route C (Balanced Corridor)**: Optimal trade-off between transit time and safety margin.
+- **Shelter Engine**: Evaluates registered relief centers by proximity, remaining bed capacity, backup generator status, and site elevation.
+
+### 7. 📋 Grounded AI Incident Action Plan (IAP)
+- Powered by **Google Gemini API** (`gemini-1.5-flash`) with a robust offline Incident Commander fallback.
+- Formats authoritative Incident Action Plans compliant with **National Disaster Management Authority (NDMA)** Incident Command System (ICS) guidelines.
+- Provides immediate 0–6 hour directives, 6–24 hour tactical objectives, and a full resource deployment matrix (NDRF boat teams, dewatering pumps, medical triages, reconnaissance drones).
+
+---
+
+## 👥 Dual-Persona Interface
+
+Aapda Setu provides dedicated role-based workflows:
+
+| Role | Target Users | Features & Workflow |
+|:---|:---|:---|
+| **🛡️ Rescue Team / Admin** | Incident Commanders, DDMAs, NDRF/SDRF | Full tactical command access across 10 operational tabs: Overview, Risk Zones, People & Infrastructure, Response Priority, Evacuation Routes, Safe Shelters, AI Action Plan, Disaster History, Data Intelligence, and Pipeline Settings. |
+| **👤 Citizen / Normal User** | Vulnerable Residents, Civilians | Panic-free localized view: color-coded safety level, nearest verified relief shelters with directions, safe evacuation route, and one-click Emergency SOS dispatch buttons (NDRF 1078, SDRF 1070). |
+
+---
+
+## 🏗️ System Architecture & Data Flow
 
 ```
-DATASETS (IMD / Bhuvan / NDEM / Sample)
-   │
-   ▼
-[ml/] ML RISK ENGINE (Member 1: SGD + XGBoost)
-   │   └─► outputs/risk_predictions.csv
-   ▼
-[gis/] GIS IMPACT & SHELTER ENGINE (Member 2: GeoPandas + Shapely)
-   │   ├─► outputs/impact_results.json
-   │   └─► outputs/shelter.json
-   ▼
-[routing/] EMERGENCY PRIORITY & ROUTING (Member 3: NetworkX + A*)
-   │   ├─► outputs/priority_results.json
-   │   └─► outputs/route.json
-   ▼
-[ai/] AI EMERGENCY ACTION PLAN (Member 4 / LLM: Gemini Grounded)
-   │
-   ▼
-[app.py] STREAMLIT COMMAND CENTER (Member 4)
+                               [ USER ENTERS LOCATION / PRESET ]
+                                              │
+                                              ▼
+                             [ LocationService (GIS & Elevation) ]
+                                              │
+                    ┌─────────────────────────┼─────────────────────────┐
+                    ▼                         ▼                         ▼
+         [ WeatherService ]          [ RainfallService ]       [ RiverService ]
+        (Open-Meteo REST API)       (1h, 24h, 48h, Anomaly)   (CWC Gauge Stations)
+                    └─────────────────────────┬─────────────────────────┘
+                                              ▼
+                                 [ HistoricalDisasterService ]
+                                 (17,458 District Flood Records)
+                                              │
+                                              ▼
+                    ┌───────────────────────────────────────────────────┐
+                    │            CORE INTELLIGENCE ENGINES              │
+                    ├───────────────────────────────────────────────────┤
+                    │ 1. PredictionEngine (SGDClassifier & XGBoost)     │
+                    │ 2. PopulationImpactService (GeoPandas / Shapely)  │
+                    │ 3. InfrastructureRiskService (Hospitals/Bridges)  │
+                    │ 4. PriorityRankingEngine (Transparent Weights)    │
+                    │ 5. SafeRoutingService (NetworkX / OSMnx A*)       │
+                    │ 6. ShelterService (Proximity & Capacity Scoring)  │
+                    │ 7. AIActionPlanService (Gemini Grounded IAP)      │
+                    └─────────────────────────┬─────────────────────────┘
+                                              ▼
+                             [ MASTER JSON CONTRACT: outputs/ ]
+                                              │
+                    ┌─────────────────────────┴─────────────────────────┐
+                    ▼                                                   ▼
+         [ Rescue Team / Admin EOC ]                         [ Citizen Safety Portal ]
+         (10 Operational Panels)                             (Simple Emergency Cards)
 ```
 
 ---
 
-## 👥 Team Work Distribution (4 Members)
+## 📁 Standardized Output Contracts (`outputs/`)
 
-To avoid merge conflicts on `main`, each member has a dedicated directory:
+Each module communicates through standardized CSV/JSON contract files:
 
-| Member | Domain | Dedicated Directory & Files | Target Output Contract |
-| :--- | :--- | :--- | :--- |
-| **Member 1** | **ML / Risk Prediction** | `ml/features.py`<br>`ml/train_sgd.py`<br>`ml/train_xgboost.py`<br>`ml/predict_risk.py`<br>`models/` | `outputs/risk_predictions.csv` |
-| **Member 2** | **GIS / Impact Analysis** | `gis/impact.py`<br>`gis/shelter.py`<br>`data/` | `outputs/impact_results.json`<br>`outputs/shelter.json` |
-| **Member 3** | **Routing & Priority** | `routing/priority.py`<br>`routing/route.py` | `outputs/priority_results.json`<br>`outputs/route.json` |
-| **Member 4** | **Streamlit & Integration** | `app.py`<br>`ai/action_plan.py`<br>`utils/` | Integrated Command UI & Action Plan |
-
-> ⚠️ **Rule:** Only **Member 4** should edit `app.py`. All other members work inside their respective directories and produce their contracted output files.
+- `outputs/risk_predictions.csv`: ML model predictions with probability scores and risk categories per zone.
+- `outputs/impact_results.json`: Exposed populations, vulnerable groups, and critical infrastructure counts.
+- `outputs/priority_results.json`: Ranked disaster zones with computed priority scores, tiers, and reasons.
+- `outputs/shelter.json`: Identified safe shelters with capacity, distance, and safety readiness scores.
+- `outputs/route.json`: Calculated coordinate waypoints, distances, transit times, and safety ratings for Routes A, B, and C.
+- `outputs/ai_action_plan.json`: Formal incident commander directives, timeline objectives, and resource requirements.
 
 ---
 
-## ⚡ Quick Start & Run Commands
+## ⚡ Quick Start Guide
 
-### 1. Install Dependencies
+### 1. Clone & Setup Environment
 ```bash
+# Clone the repository
+git clone https://github.com/Hiten-7/team-010-_ps1.git
+cd team-010-_ps1
+
+# Create and activate virtual environment
+python -m venv .venv
+# On Windows:
+.\.venv\Scripts\activate
+# On Linux/macOS:
+source .venv/bin/activate
+
+# Install dependencies
 pip install -r requirements.txt
 ```
 
-### 2. Run the Full Pipeline Test (Generates All Outputs)
-```bash
-python -c "
-import ml.predict_risk as pr, gis.impact as gi, gis.shelter as gs, routing.priority as rp, routing.route as rr, ai.action_plan as ap
-pr.run_risk_prediction()
-gi.run_impact_analysis()
-gs.recommend_shelters()
-rp.run_priority_ranking()
-rr.find_evacuation_routes()
-print('All outputs generated!')
-"
-```
-
-### 3. Launch the Streamlit Command Center
+### 2. Launch the Application
 ```bash
 streamlit run app.py
 ```
+Open **[http://localhost:8501](http://localhost:8501)** (or **[http://localhost:8502](http://localhost:8502)**) in your browser.
 
-*Note: If running on Windows with a specific Python binary:*
-```powershell
-& "c:\Users\DHRUV\AppData\Local\Programs\Python\Python312\python.exe" -m streamlit run app.py
+### 3. Run Automated Dynamic Test Suite
+Verify that all services, ML models, GIS layers, and location telemetry execute cleanly across diverse geographic regions:
+```bash
+pytest tests/test_dynamic_locations.py -v
+# Or directly via Python:
+python tests/test_dynamic_locations.py
 ```
 
 ---
 
-## 📋 Data Contract Specifications
+## 📂 Project Structure
 
-### 1. `outputs/risk_predictions.csv` (Produced by Member 1)
-```csv
-zone_id,zone_name,district,state,latitude,longitude,rainfall_mm,risk_probability,risk_score,risk_level,model_used
-Z-KOL-03,Kolkata South East,KOLKATA,WEST BENGAL,22.518,88.39,245.8,0.934,93.4,VERY HIGH,XGBoost (Primary)
 ```
-
-### 2. `outputs/impact_results.json` (Produced by Member 2)
-```json
-[
-  {
-    "zone": "Z-KOL-03",
-    "population": 152140,
-    "hospitals": 4,
-    "schools": 13,
-    "roads": 34,
-    "bridges": 5
-  }
-]
-```
-
-### 3. `outputs/priority_results.json` (Produced by Member 3)
-```json
-[
-  {
-    "priority_rank": 1,
-    "zone_id": "Z-KOL-03",
-    "zone_name": "Kolkata South East Lowlands",
-    "priority_score": 94.1,
-    "priority_level": "CRITICAL",
-    "affected_population": 152140,
-    "critical_infrastructure_count": 21
-  }
-]
-```
-
-### 4. `outputs/shelter.json` (Produced by Member 2)
-```json
-[
-  {
-    "zone_id": "Z-KOL-03",
-    "recommended_shelter_id": "SH-01",
-    "shelter_name": "Salt Lake Stadium Indoor Complex",
-    "distance_km": 3.2,
-    "shelter_risk": "LOW",
-    "available_capacity": 4150,
-    "status": "RECOMMENDED"
-  }
-]
-```
-
-### 5. `outputs/route.json` (Produced by Member 3)
-```json
-{
-  "routes": {
-    "fast_route": { "title": "Route A", "distance_km": 8.5, "travel_time_min": 15.2, "flood_risk_level": "HIGH FLOOD RISK", "recommendation": "NOT RECOMMENDED" },
-    "safe_route": { "title": "Route B", "distance_km": 13.8, "travel_time_min": 26.0, "flood_risk_level": "LOW FLOOD RISK", "recommendation": "RECOMMENDED ALTERNATIVE" },
-    "optimal_route": { "title": "Route C", "distance_km": 11.6, "travel_time_min": 22.4, "flood_risk_level": "LOW FLOOD RISK", "recommendation": "RECOMMENDED PRIMARY" }
-  }
-}
+team-010-_ps1/
+├── PRD.md                             # Comprehensive Product Requirements Document
+├── README.md                          # Project overview and technical documentation
+├── app.py                             # Streamlit Command Center & Citizen Safety Portal
+├── requirements.txt                   # Production dependencies
+├── model_training_dataset.csv         # 17,458 historical Indian district flood records
+├── models/                            # Serialized ML models
+│   ├── disaster_priority_model.pkl
+│   ├── sgd_model.pkl
+│   └── xgb_model.pkl
+├── services/                          # Modular location-aware intelligence services
+│   ├── location_service.py            # Coordinate, elevation & catchment resolver
+│   ├── weather_service.py             # Open-Meteo REST API integration
+│   ├── rainfall_service.py            # Dynamic 1h, 24h, 48h IMD rainfall engine
+│   ├── river_service.py               # CWC river gauge & danger mark tracker
+│   ├── historical_service.py          # District flood history analyzer
+│   ├── prediction_service.py          # ML risk zone & severity score engine
+│   ├── population_service.py          # Spatial demographic exposure analyzer
+│   ├── infrastructure_service.py      # Critical asset & utility vulnerability auditor
+│   ├── shelter_service.py             # Nearest safe shelter recommender
+│   ├── routing_service.py             # Risk-penalized A* evacuation router
+│   ├── ai_action_plan_service.py      # Google Gemini / Offline IAP synthesizer
+│   └── disaster_intelligence_service.py # Master pipeline coordinator
+├── routing/                           # Routing & priority helpers
+│   ├── priority.py                    # Multi-factor priority formula & classification
+│   └── route.py                       # NetworkX graph construction
+├── utils/                             # Map & UI rendering utilities
+│   └── map_utils.py                   # Leaflet/Folium disaster command map generator
+├── outputs/                           # Standardized output contracts (JSON / CSV)
+│   ├── risk_predictions.csv
+│   ├── impact_results.json
+│   ├── priority_results.json
+│   ├── shelter.json
+│   ├── route.json
+│   └── ai_action_plan.json
+└── tests/                             # Automated test suite
+    └── test_dynamic_locations.py
 ```
 
 ---
 
-## 🔄 Roadmap to Replace Sample Data with Real Datasets
+## 🛠️ Technology Stack
 
-During the hackathon, replace data in this recommended sequence:
+| Domain | Technology | Purpose |
+|:---|:---|:---|
+| **Frontend & UI** | Streamlit, Folium, Streamlit-Folium | Responsive command center, citizen portal, interactive Leaflet maps |
+| **Machine Learning** | Scikit-learn, XGBoost, Joblib | Flood probability classification and calibrated severity scoring |
+| **GIS & Demographics** | GeoPandas, Shapely | Spatial polygon overlays, infrastructure and demographic exposure |
+| **Graph & Routing** | NetworkX, OSMnx | A* search, risk-weighted edge costs, safe highland bypass corridors |
+| **Live Telemetry** | Open-Meteo REST API, Urllib | Zero-API-key global weather, rainfall, and river basin telemetry |
+| **Generative AI** | Google Gemini (`google-genai`) | Authoritative NDMA-compliant Incident Action Plans |
+| **Data Processing** | Pandas, NumPy | High-performance feature engineering and contract serialization |
 
-1. **Step 1: Real IMD Daily Rainfall (`data/raw/imd_rainfall.csv`)**
-   - Replace `data/sample/sample_rainfall.csv` with live/daily district rainfall tables from IMD.
-   - Member 1 connects `ml/predict_risk.py` to ingest the live precipitation values.
+---
 
-2. **Step 2: Train Models with `model_training_dataset.csv`**
-   - Member 1 can point `ml/train_sgd.py` and `ml/train_xgboost.py` to `model_training_dataset.csv`.
-   - The pre-trained pipeline in `disaster_priority_model.pkl` is already linked in `models/` and loaded by `routing/priority.py`.
+## 🛡️ License & Acknowledgments
 
-3. **Step 3: Real Administrative Boundaries & OpenStreetMap Amenities (GIS)**
-   - Member 2 downloads GeoJSON / Shapefiles for the target district.
-   - Load hospital and school points using GeoPandas spatial joins in `gis/impact.py`.
-
-4. **Step 4: Live OSMnx Road Graph (Routing)**
-   - Member 3 activates `osmnx.graph_from_place()` in `routing/route.py` for dynamic road edge costs and flood level penalty.
-
-5. **Step 5: Live LLM Emergency Action Plan**
-   - Set environment variable `GEMINI_API_KEY="your-key-here"` or enter it in the sidebar in `app.py`.
-   - Generates live multimodal/grounded action plans.
-=======
-# Disaster Management Intelligence System
-
-AI-driven predictive intelligence system that transforms scattered disaster data into actionable emergency response plans for Indian district disaster management.
-
-## Product Vision
-
-Equip every Indian district with AI-driven predictive intelligence that transforms scattered disaster data into actionable emergency response plans within minutes.
-
-## Target Audience
-
-- District disaster management officers
-- Emergency response coordinators
-- State government administrators
-- Field rescue teams requiring rapid decision-making intelligence
-
-## Core Features
-
-- **District Management**: CRUD operations for managing Indian districts with geographical data
-- **Disaster Tracking**: Record and track disaster events with severity levels and impact metrics
-- **Alert System**: Create and manage predictive alerts with confidence scores and recommended actions
-
-## Technology Stack
-
-- **Backend Framework**: FastAPI 0.104.1
-- **Database**: SQLAlchemy 2.0.23 (SQLite for development, PostgreSQL/MySQL for production)
-- **Data Validation**: Pydantic 2.5.0
-- **Server**: Uvicorn 0.24.0
-- **Architecture**: Modular Monolith with clear separation of concerns
-
-## Prerequisites
-
-- Python 3.8 or higher
-- pip (Python package manager)
-
-## Installation
-
-1. **Clone the repository** (if applicable) or navigate to the project directory:
-```bash
-cd /path/to/project
-```
-
-2. **Create a virtual environment**:
-```bash
-python -m venv venv
-```
-
-3. **Activate the virtual environment**:
-   - On Linux/Mac:
-     ```bash
-     source venv/bin/activate
-     ```
-   - On Windows:
-     ```bash
-     venv\Scripts\activate
-     ```
-
-4. **Install dependencies**:
-```bash
-pip install -r backend/requirements.txt
-```
-
-5. **Set up environment variables**:
-```bash
-cp .env.example .env
-```
-Edit `.env` file and update the configuration values, especially:
-- `SECRET_KEY`: Use a strong random string for production
-- `DATABASE_URL`: Configure your database connection
-
-## Running the Application
-
-### Development Mode
-
-Run the application with auto-reload enabled:
-
-```bash
-uvicorn backend.main:app --reload --host 0.0.0.0 --port 8000
-```
-
-The API will be available at: `http://localhost:8000`
-
-### Production Mode
-
-For production deployment:
-
-```bash
-uvicorn backend.main:app --host 0.0.0.0 --port 8000 --workers 4
-```
-
-## API Documentation
-
-Once the application is running, access the interactive API documentation:
-
-- **Swagger UI**: http://localhost:8000/docs
-- **ReDoc**: http://localhost:8000/redoc
-
-## API Endpoints
-
-### Health Check
-- `GET /` - Root endpoint with API information
-- `GET /health` - Health check endpoint
-
-### Districts
-- `POST /api/v1/districts` - Create a new district
-- `GET /api/v1/districts` - List all districts (with optional state filter)
-- `GET /api/v1/districts/{district_id}` - Get district by ID
-- `GET /api/v1/districts/code/{district_code}` - Get district by code
-- `PUT /api/v1/districts/{district_id}` - Update district
-- `DELETE /api/v1/districts/{district_id}` - Delete district
-
-### Disasters
-- `POST /api/v1/disasters` - Create a new disaster record
-- `GET /api/v1/disasters` - List all disasters (with filters: district_id, disaster_type, severity)
-- `GET /api/v1/disasters/{disaster_id}` - Get disaster by ID
-- `PUT /api/v1/disasters/{disaster_id}` - Update disaster
-- `DELETE /api/v1/disasters/{disaster_id}` - Delete disaster
-
-### Alerts
-- `POST /api/v1/alerts` - Create a new alert
-- `GET /api/v1/alerts` - List all alerts (with filters: district_id, disaster_type, severity, status, active_only)
-- `GET /api/v1/alerts/{alert_id}` - Get alert by ID
-- `PUT /api/v1/alerts/{alert_id}` - Update alert
-- `PATCH /api/v1/alerts/{alert_id}/resolve` - Mark alert as resolved
-- `DELETE /api/v1/alerts/{alert_id}` - Delete alert
-
-## Database Models
-
-### District
-- Indian district information with geographical coordinates
-- Population and area data
-- Unique district code
-
-### Disaster
-- Disaster event records
-- Types: flood, earthquake, cyclone, drought, landslide, fire, tsunami, other
-- Severity levels: low, medium, high, critical
-- Impact metrics: affected population, casualties, damage estimates
-
-### Alert
-- Predictive alerts and warnings
-- Confidence scores for predictions
-- Recommended actions
-- Validity periods
-- Status tracking: active, resolved, monitoring
-
-## Environment Variables
-
-Key environment variables (see `.env.example` for full list):
-
-- `DATABASE_URL`: Database connection string
-- `SECRET_KEY`: Secret key for security operations
-- `DEBUG`: Enable/disable debug mode
-- `ALLOWED_ORIGINS`: CORS allowed origins
-- `LOG_LEVEL`: Logging level (INFO, DEBUG, WARNING, ERROR)
-
-## Project Structure
-
-```
-.
-├── backend/
-│   ├── __init__.py
-│   ├── main.py              # FastAPI application entry point
-│   ├── config.py            # Configuration management
-│   ├── database.py          # Database connection and session
-│   ├── models.py            # SQLAlchemy models
-│   ├── schemas.py           # Pydantic schemas
-│   ├── requirements.txt     # Python dependencies
-│   └── routers/
-│       ├── __init__.py
-│       ├── disasters.py     # Disaster endpoints
-│       ├── districts.py     # District endpoints
-│       └── alerts.py        # Alert endpoints
-├── .env.example             # Environment variables template
-└── README.md                # This file
-```
-
-## Architecture Overview
-
-The application follows a **Modular Monolith** architecture:
-
-- **Routers**: Handle HTTP requests and responses
-- **Models**: Define database schema using SQLAlchemy ORM
-- **Schemas**: Validate request/response data using Pydantic
-- **Database**: Centralized database connection management
-- **Config**: Environment-based configuration
-
-## Development Guidelines
-
-1. **Code Style**: Follow PEP 8 guidelines
-2. **Error Handling**: All endpoints include proper error handling
-3. **Validation**: Input validation using Pydantic schemas
-4. **Logging**: Structured logging for debugging and monitoring
-5. **Security**: Environment variables for sensitive data
-
-## Database Migration
-
-For production deployments, consider using Alembic for database migrations:
-
-```bash
-pip install alembic
-alembic init alembic
-# Configure alembic.ini and create migrations
-alembic revision --autogenerate -m "Initial migration"
-alembic upgrade head
-```
-
-## Security Considerations
-
-- Change `SECRET_KEY` in production to a strong random string
-- Use PostgreSQL or MySQL for production (not SQLite)
-- Enable HTTPS in production
-- Configure proper CORS origins
-- Implement rate limiting for production APIs
-- Use environment variables for all sensitive configuration
-
-## Support
-
-For issues, questions, or contributions, please contact the development team or refer to the project documentation.
-
-## License
-
-[Specify your license here]
->>>>>>> 2c96b425db9a1d91485b8ead4d5b880c75e9f248
+Developed for the Disaster Management AI Hackathon. Built to empower district authorities with rapid, transparent, and actionable intelligence to safeguard vulnerable lives and critical infrastructure during extreme weather calamities.

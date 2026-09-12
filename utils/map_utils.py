@@ -41,7 +41,7 @@ def create_disaster_command_map(
     m = folium.Map(
         location=map_center,
         zoom_start=zoom,
-        tiles="CartoDB dark_matter"  # Tactical dark theme for command centers
+        tiles="OpenStreetMap"
     )
 
     # 1. Plot Disaster Risk Zones

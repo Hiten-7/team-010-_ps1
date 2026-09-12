@@ -24,11 +24,27 @@ from config.settings import (
 from ml.features import extract_features, compute_risk_score
 
 
-def load_best_model():
+def load_best_model(model_choice: str = "Auto"):
     """
-    Load primary XGBoost model if available, fallback to SGD model,
-    or return None for rule-based calculation.
+    Load specified model (XGBoost, SGD, or Auto best available).
     """
+    choice = (model_choice or "Auto").lower()
+
+    if choice in ["xgboost", "xgb"]:
+        if XGB_MODEL_PATH.exists():
+            try:
+                return joblib.load(XGB_MODEL_PATH), "XGBoost (Primary)"
+            except Exception as e:
+                print(f"[WARN] Failed to load XGB model: {e}")
+
+    if choice in ["sgd", "sgdclassifier", "sgd_model"]:
+        if SGD_MODEL_PATH.exists():
+            try:
+                return joblib.load(SGD_MODEL_PATH), "SGDClassifier (Baseline)"
+            except Exception as e:
+                print(f"[WARN] Failed to load SGD model: {e}")
+
+    # Auto mode: try XGB first, then SGD
     if XGB_MODEL_PATH.exists():
         try:
             return joblib.load(XGB_MODEL_PATH), "XGBoost (Primary)"
@@ -44,31 +60,40 @@ def load_best_model():
     return None, "Heuristic Rule Fallback"
 
 
-def run_risk_prediction(input_zones_path: Path = None, output_path: Path = RISK_PREDICTIONS_PATH) -> pd.DataFrame:
+def run_risk_prediction(
+    input_zones_path: Path = None,
+    df_input: pd.DataFrame = None,
+    model_choice: str = "Auto",
+    output_path: Path = RISK_PREDICTIONS_PATH
+) -> pd.DataFrame:
     """
     Run risk inference for disaster zones and write outputs/risk_predictions.csv.
-    TODO: Plug in real-time feeds from IMD API or satellite flood extent shapefiles.
+    Accepts either an input file path or an in-memory DataFrame.
     """
     OUTPUTS_DIR.mkdir(parents=True, exist_ok=True)
 
     # 1. Load zones data
-    if input_zones_path and Path(input_zones_path).exists():
+    if df_input is not None and not df_input.empty:
+        df_zones = df_input.copy()
+    elif input_zones_path and Path(input_zones_path).exists():
         target_path = Path(input_zones_path)
+        if target_path.suffix == ".json":
+            with open(target_path, "r", encoding="utf-8") as f:
+                zones_data = json.load(f)
+            df_zones = pd.DataFrame(zones_data)
+        else:
+            df_zones = pd.read_csv(target_path)
     else:
         target_path = SAMPLE_DATA_DIR / "sample_zones.json"
-
-    if target_path.suffix == ".json":
         with open(target_path, "r", encoding="utf-8") as f:
             zones_data = json.load(f)
         df_zones = pd.DataFrame(zones_data)
-    else:
-        df_zones = pd.read_csv(target_path)
 
     # 2. Extract features
     X = extract_features(df_zones)
 
     # 3. Model Inference
-    model, model_name = load_best_model()
+    model, model_name = load_best_model(model_choice=model_choice)
 
     if model is not None:
         try:
@@ -89,7 +114,7 @@ def run_risk_prediction(input_zones_path: Path = None, output_path: Path = RISK_
 
     # 4. Construct Output DataFrame
     results = []
-    for idx, row in df_zones.iterrows():
+    for idx, row in df_zones.reset_index(drop=True).iterrows():
         prob = float(probabilities[idx])
         score, level = compute_risk_score(prob)
 

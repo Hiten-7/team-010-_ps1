@@ -1,6 +1,4 @@
-zone_id,zone_name,district,state,latitude,longitude,rainfall_mm,risk_probability,risk_score,risk_level,model_used
-Z-KOL-03,Kolkata South East Lowlands,KOLKATA,WEST BENGAL,22.518,88.39,245.8,0.9623,96.23,VERY HIGH,XGBoost (Primary)
-Z-KOL-01,Kolkata North & Riverbank,KOLKATA,WEST BENGAL,22.5958,88.3639,215.4,0.8908,89.08,VERY HIGH,XGBoost (Primary)
-Z-KOL-02,Kolkata Central Commercial,KOLKATA,WEST BENGAL,22.5697,88.3524,180.2,0.8305,83.05,VERY HIGH,XGBoost (Primary)
-Z-KOL-04,Behala & Diamond Harbour Corridor,KOLKATA,WEST BENGAL,22.4985,88.318,195.0,0.8258,82.58,VERY HIGH,XGBoost (Primary)
-Z-KOL-05,Salt Lake & New Town Uplands,KOLKATA,WEST BENGAL,22.5867,88.4178,110.5,0.5312,53.12,HIGH,XGBoost (Primary)
+zone_id,zone_name,area_locality,latitude,longitude,elevation_m,drainage_density,river_proximity_km,risk_probability,risk_score,risk_level,model_used,reasons,pop_weight,district,state,rainfall_mm
+Z-MAL-01,Kadalundi Lowland Gorge,Kadalundi Lowland Gorge,11.066,76.0461,18.0,0.45,1.5,0.5108,51.08,MODERATE RISK,XGBoost (Primary Model),['Stable terrain with standard storm runoff'],0.35,MALAPPURAM,KERALA,33.8
+Z-MAL-02,Nilambur Slope Hazard Sector,Nilambur Slope Hazard Sector,11.171,76.1511,85.0,0.6,4.5,0.1161,11.61,LOW RISK,XGBoost (Primary Model),['Stable terrain with standard storm runoff'],0.3,MALAPPURAM,KERALA,33.8
+Z-MAL-03,Kottakkal Elevated Plateau,Kottakkal Elevated Plateau,11.016,76.0561,65.0,0.85,4.5,0.06,6.0,LOW RISK,XGBoost (Primary Model),['Stable terrain with standard storm runoff'],0.35,MALAPPURAM,KERALA,33.8
