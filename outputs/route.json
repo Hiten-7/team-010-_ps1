@@ -1,0 +1,136 @@
+{
+  "origin": {
+    "name": "High Priority Zone (Kolkata South East)",
+    "latitude": 22.518,
+    "longitude": 88.39
+  },
+  "destination": {
+    "name": "Salt Lake Stadium Relief Hub",
+    "latitude": 22.5697,
+    "longitude": 88.4063
+  },
+  "routes": {
+    "fast_route": {
+      "nodes": [
+        "START",
+        "W_FLOOD_1",
+        "W_FLOOD_2",
+        "END"
+      ],
+      "waypoints": [
+        "Disaster Zone Center",
+        "Low River Causeway",
+        "Underpass Corridor",
+        "Designated Shelter"
+      ],
+      "coordinates": [
+        [
+          22.518,
+          88.39
+        ],
+        [
+          22.530925,
+          75.21886
+        ],
+        [
+          22.54385,
+          55.46215
+        ],
+        [
+          22.5697,
+          88.4063
+        ]
+      ],
+      "distance_km": 8.5,
+      "travel_time_min": 13.3,
+      "flood_risk_score": 81.7,
+      "flood_risk_level": "HIGH FLOOD RISK",
+      "route_id": "ROUTE_FAST",
+      "title": "Route A (Fastest)",
+      "recommendation": "NOT RECOMMENDED",
+      "warning": "Passes through submerged canal underpasses. High risk of vehicle hydraulic lock."
+    },
+    "safe_route": {
+      "nodes": [
+        "START",
+        "W_SAFE_1",
+        "W_SAFE_2",
+        "END"
+      ],
+      "waypoints": [
+        "Disaster Zone Center",
+        "Eastern High Ring Road",
+        "Highland Bypass",
+        "Designated Shelter"
+      ],
+      "coordinates": [
+        [
+          22.518,
+          88.39
+        ],
+        [
+          22.533,
+          88.415
+        ],
+        [
+          22.5817,
+          88.3913
+        ],
+        [
+          22.5697,
+          88.4063
+        ]
+      ],
+      "distance_km": 11.6,
+      "travel_time_min": 13.8,
+      "flood_risk_score": 12.3,
+      "flood_risk_level": "LOW FLOOD RISK",
+      "route_id": "ROUTE_SAFE",
+      "title": "Route B (Maximum Safety Highland Bypass)",
+      "recommendation": "RECOMMENDED ALTERNATIVE",
+      "warning": "Longer distance but entirely situated on elevated embankments."
+    },
+    "optimal_route": {
+      "nodes": [
+        "START",
+        "W_SAFE_1",
+        "W_SAFE_2",
+        "END"
+      ],
+      "waypoints": [
+        "Disaster Zone Center",
+        "Eastern High Ring Road",
+        "Highland Bypass",
+        "Designated Shelter"
+      ],
+      "coordinates": [
+        [
+          22.518,
+          88.39
+        ],
+        [
+          22.533,
+          88.415
+        ],
+        [
+          22.5817,
+          88.3913
+        ],
+        [
+          22.5697,
+          88.4063
+        ]
+      ],
+      "distance_km": 11.6,
+      "travel_time_min": 13.8,
+      "flood_risk_score": 12.3,
+      "flood_risk_level": "LOW FLOOD RISK",
+      "route_id": "ROUTE_OPTIMAL",
+      "title": "Route C (Recommended Risk-Aware Corridor)",
+      "recommendation": "RECOMMENDED PRIMARY",
+      "warning": "Optimal trade-off balancing safety clearance and rapid emergency response time."
+    }
+  },
+  "recommended_route_id": "ROUTE_OPTIMAL",
+  "routing_algorithm": "NetworkX Risk-Weighted A* Shortest Path"
+}

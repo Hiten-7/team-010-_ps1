@@ -1,0 +1,97 @@
+[
+  {
+    "zone_id": "Z-KOL-02",
+    "zone_name": "Kolkata Central Commercial",
+    "district": "KOLKATA",
+    "risk_score": 83.05,
+    "affected_population": 168045,
+    "critical_infrastructure_count": 31,
+    "accessibility_score": 0.65,
+    "priority_score": 83.47,
+    "priority_level": "CRITICAL",
+    "ml_predicted_priority": "HIGH",
+    "weights_used": {
+      "risk": 0.4,
+      "population": 0.25,
+      "critical_infrastructure": 0.2,
+      "accessibility": 0.15
+    },
+    "priority_rank": 1
+  },
+  {
+    "zone_id": "Z-KOL-03",
+    "zone_name": "Kolkata South East Lowlands",
+    "district": "KOLKATA",
+    "risk_score": 96.23,
+    "affected_population": 155150,
+    "critical_infrastructure_count": 17,
+    "accessibility_score": 0.35,
+    "priority_score": 82.29,
+    "priority_level": "CRITICAL",
+    "ml_predicted_priority": "HIGH",
+    "weights_used": {
+      "risk": 0.4,
+      "population": 0.25,
+      "critical_infrastructure": 0.2,
+      "accessibility": 0.15
+    },
+    "priority_rank": 2
+  },
+  {
+    "zone_id": "Z-KOL-01",
+    "zone_name": "Kolkata North & Riverbank",
+    "district": "KOLKATA",
+    "risk_score": 89.08,
+    "affected_population": 123601,
+    "critical_infrastructure_count": 21,
+    "accessibility_score": 0.45,
+    "priority_score": 75.82,
+    "priority_level": "HIGH",
+    "ml_predicted_priority": "HIGH",
+    "weights_used": {
+      "risk": 0.4,
+      "population": 0.25,
+      "critical_infrastructure": 0.2,
+      "accessibility": 0.15
+    },
+    "priority_rank": 3
+  },
+  {
+    "zone_id": "Z-KOL-04",
+    "zone_name": "Behala & Diamond Harbour Corridor",
+    "district": "KOLKATA",
+    "risk_score": 82.58,
+    "affected_population": 147035,
+    "critical_infrastructure_count": 17,
+    "accessibility_score": 0.5,
+    "priority_score": 73.37,
+    "priority_level": "HIGH",
+    "ml_predicted_priority": "MEDIUM",
+    "weights_used": {
+      "risk": 0.4,
+      "population": 0.25,
+      "critical_infrastructure": 0.2,
+      "accessibility": 0.15
+    },
+    "priority_rank": 4
+  },
+  {
+    "zone_id": "Z-KOL-05",
+    "zone_name": "Salt Lake & New Town Uplands",
+    "district": "KOLKATA",
+    "risk_score": 53.12,
+    "affected_population": 56168,
+    "critical_infrastructure_count": 16,
+    "accessibility_score": 0.9,
+    "priority_score": 41.43,
+    "priority_level": "LOW",
+    "ml_predicted_priority": "MEDIUM",
+    "weights_used": {
+      "risk": 0.4,
+      "population": 0.25,
+      "critical_infrastructure": 0.2,
+      "accessibility": 0.15
+    },
+    "priority_rank": 5
+  }
+]

@@ -1,0 +1,6 @@
+zone_id,zone_name,district,state,latitude,longitude,rainfall_mm,risk_probability,risk_score,risk_level,model_used
+Z-KOL-03,Kolkata South East Lowlands,KOLKATA,WEST BENGAL,22.518,88.39,245.8,0.9623,96.23,VERY HIGH,XGBoost (Primary)
+Z-KOL-01,Kolkata North & Riverbank,KOLKATA,WEST BENGAL,22.5958,88.3639,215.4,0.8908,89.08,VERY HIGH,XGBoost (Primary)
+Z-KOL-02,Kolkata Central Commercial,KOLKATA,WEST BENGAL,22.5697,88.3524,180.2,0.8305,83.05,VERY HIGH,XGBoost (Primary)
+Z-KOL-04,Behala & Diamond Harbour Corridor,KOLKATA,WEST BENGAL,22.4985,88.318,195.0,0.8258,82.58,VERY HIGH,XGBoost (Primary)
+Z-KOL-05,Salt Lake & New Town Uplands,KOLKATA,WEST BENGAL,22.5867,88.4178,110.5,0.5312,53.12,HIGH,XGBoost (Primary)

@@ -1,0 +1,58 @@
+[
+  {
+    "shelter_id": "SH-01",
+    "name": "Salt Lake Stadium Indoor Complex",
+    "latitude": 22.5697,
+    "longitude": 88.4063,
+    "total_capacity": 5000,
+    "current_occupancy": 850,
+    "available_capacity": 4150,
+    "elevation_m": 9.8,
+    "shelter_risk": "LOW",
+    "facilities": ["Medical Bay", "Clean Water RO", "Generator Power", "Community Kitchen"],
+    "accessibility_status": "EXCELLENT",
+    "contact": "+91-33-2335-0001"
+  },
+  {
+    "shelter_id": "SH-02",
+    "name": "Netaji Indoor Stadium Relief Hub",
+    "latitude": 22.5675,
+    "longitude": 88.3433,
+    "total_capacity": 3500,
+    "current_occupancy": 1200,
+    "available_capacity": 2300,
+    "elevation_m": 7.2,
+    "shelter_risk": "MODERATE",
+    "facilities": ["First Aid", "Packaged Food", "Backup Generator"],
+    "accessibility_status": "MODERATE",
+    "contact": "+91-33-2248-1122"
+  },
+  {
+    "shelter_id": "SH-03",
+    "name": "Jadavpur High Ground Relief Center",
+    "latitude": 22.4989,
+    "longitude": 88.3718,
+    "total_capacity": 2500,
+    "current_occupancy": 400,
+    "available_capacity": 2100,
+    "elevation_m": 8.5,
+    "shelter_risk": "LOW",
+    "facilities": ["Medical Staff", "Drinking Water", "Children Support"],
+    "accessibility_status": "GOOD",
+    "contact": "+91-33-2414-3344"
+  },
+  {
+    "shelter_id": "SH-04",
+    "name": "Dum Dum District Community Hall",
+    "latitude": 22.6230,
+    "longitude": 88.4110,
+    "total_capacity": 1800,
+    "current_occupancy": 250,
+    "available_capacity": 1550,
+    "elevation_m": 8.9,
+    "shelter_risk": "LOW",
+    "facilities": ["First Aid", "Food Stock", "Solar Lighting"],
+    "accessibility_status": "GOOD",
+    "contact": "+91-33-2559-7788"
+  }
+]
